@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sleepking - Pagos Seguros</title>
+    <link rel="stylesheet" href="pago.css">
+    <!-- Stripe.js library -->
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="pago-container">
+        <h1 class="text-center">🛒 Pasarela de Pago Segura</h1>
+        <p class="text-center">Selecciona un producto para continuar con tu compra</p>
+        
+        <!-- Grid de productos -->
+        <div class="productos-grid" id="productosGrid"></div>
+        
+        <!-- Formulario de pago con Stripe Elements -->
+        <div class="payment-form" id="paymentForm" style="display: none;">
+            <h3>💳 Detalles del Pago</h3>
+            
+            <!-- Resumen de compra -->
+            <div class="resumen-compra" id="resumenCompra">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                    <span>Producto:</span>
+                    <span id="resumenProducto">-</span>
+                </div>
+                <div class="resumen-total">
+                    <span>Total a pagar:</span>
+                    <span id="resumenTotal">$0</span>
+                </div>
+            </div>
+            
+            <!-- Contenedor para Stripe Elements (campos de tarjeta) -->
+            <div id="card-element" class="form-control stripe-element">
+                <!-- Stripe injectará los campos aquí -->
+            </div>
+            <div id="card-errors" class="error-mensaje" role="alert"></div>
+            
+            <!-- Botón de pago -->
+            <button class="btn-pagar" id="btnPagar" onclick="procesarPagoConStripe()">
+                Pagar Ahora
+            </button>
+            
+            <!-- Modo de prueba (solo visible en desarrollo) -->
+            <div class="simulador-estados">
+                <p><strong>🧪 Modo Prueba Stripe:</strong> Usa la tarjeta de prueba <strong>4242 4242 4242 4242</strong>, cualquier fecha futura y cualquier CVV (3 dígitos).</p>
+            </div>
+        </div>
+        
+        <!-- Enlace para volver -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="index.html" class="boton" style="background: gray; text-decoration: none; display: inline-block; padding: 10px 20px;">
+                ← Volver a la tienda
+            </a>
+        </div>
+    </div>
+    
+    <!-- Modal de resultado -->
+    <div class="modal-resultado" id="modalResultado">
+        <div class="modal-content">
+            <div class="modal-icon" id="modalIcon">✅</div>
+            <h2 class="modal-titulo" id="modalTitulo"></h2>
+            <p class="modal-mensaje" id="modalMensaje"></p>
+            <button class="btn-cerrar" onclick="cerrarModal()">Aceptar</button>
+        </div>
+    </div>
+    
+    <script src="pago.js"></script>
+</body>
+</html>

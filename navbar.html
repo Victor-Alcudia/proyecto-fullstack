@@ -1,0 +1,151 @@
+<!-- Navbar de Sleepking -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <!-- Logo o nombre de la marca -->
+        <a class="navbar-brand" href="index.html">
+            Sleepking
+        </a>
+        
+        <!-- Botón para móviles -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                data-bs-target="#navbarSleepking" 
+                aria-controls="navbarSleepking"
+                aria-expanded="false" 
+                aria-label="Abrir menú de navegación">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Menú de navegación -->
+        <div class="collapse navbar-collapse" id="navbarSleepking">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- Enlace a Inicio -->
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        Inicio
+                    </a>
+                </li>
+                
+                <!-- Enlace a Productos -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#productos">
+                        Productos
+                    </a>
+                </li>
+                
+                <!-- Enlace a Ofertas -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#ofertas">
+                        Ofertas
+                    </a>
+                </li>
+                
+                <!-- Enlace a Contacto -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#contacto">
+                        Contacto
+                    </a>
+                </li>
+                
+                <!-- Separador visual -->
+                <li class="nav-item dropdown-divider"></li>
+                
+                <!-- Elementos dinámicos según sesión -->
+                <li class="nav-item" id="loginNavItem">
+                    <a class="nav-link" href="#" onclick="mostrarLogin()">
+                        Iniciar Sesión
+                    </a>
+                </li>
+                
+                <li class="nav-item" id="registerNavItem">
+                    <a class="nav-link" href="registro.html">
+                        Registrarse
+                    </a>
+                </li>
+                
+                <!-- Elemento para usuario logueado (oculto por defecto) -->
+                <li class="nav-item dropdown" id="userNavItem" style="display: none;">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" 
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="userEmail">Usuario</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="admin.html"> Gestionar Inventario</a></li>
+                        <li><a class="dropdown-item" href="#compras">Mis Compras</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" onclick="cerrarSesion()"> Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Script para manejar el estado de sesión -->
+<script>
+    // Función para actualizar navbar según sesión
+    function actualizarNavbar() {
+        const token = localStorage.getItem('token');
+        const email = localStorage.getItem('userEmail');
+        
+        const loginNav = document.getElementById('loginNavItem');
+        const registerNav = document.getElementById('registerNavItem');
+        const userNav = document.getElementById('userNavItem');
+        const userEmailSpan = document.getElementById('userEmail');
+        
+        // También actualizar las secciones del index si existen
+        const userDisplay = document.getElementById('user-display');
+        const loginSection = document.getElementById('login-section');
+        const registroCallout = document.getElementById('registro-callout');
+        
+        if (token && email) {
+            // Usuario logueado
+            if (loginNav) loginNav.style.display = 'none';
+            if (registerNav) registerNav.style.display = 'none';
+            if (userNav) {
+                userNav.style.display = 'block';
+                if (userEmailSpan) userEmailSpan.textContent = email;
+            }
+            
+            // Actualizar secciones del index
+            if (userDisplay) userDisplay.style.display = 'block';
+            if (loginSection) loginSection.style.display = 'none';
+            if (registroCallout) registroCallout.style.display = 'none';
+            
+            // Actualizar email en user-display si existe
+            const userEmailDisplay = document.getElementById('user-email');
+            if (userEmailDisplay) userEmailDisplay.textContent = email;
+            
+        } else {
+            // Usuario no logueado
+            if (loginNav) loginNav.style.display = 'block';
+            if (registerNav) registerNav.style.display = 'block';
+            if (userNav) userNav.style.display = 'none';
+            
+            // Actualizar secciones del index
+            if (userDisplay) userDisplay.style.display = 'none';
+            if (loginSection) loginSection.style.display = 'block';
+            if (registroCallout) registroCallout.style.display = 'block';
+        }
+    }
+    
+    // Función para mostrar login (scroll al formulario)
+    function mostrarLogin() {
+        const loginSection = document.getElementById('login-section');
+        if (loginSection) {
+            loginSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    
+    // Función para cerrar sesión
+    function cerrarSesion() {
+        if (confirm('¿Cerrar sesión?')) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
+            actualizarNavbar();
+            window.location.href = 'index.html';
+        }
+    }
+    
+    // Ejecutar al cargar la página
+    document.addEventListener('DOMContentLoaded', actualizarNavbar);
+</script>

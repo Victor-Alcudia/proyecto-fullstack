@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sleepking - Registro</title>
+    <style>
+        body { font-family: Arial; background: #f0f2f5; display: flex; justify-content: center; padding: 50px; }
+        .registro-box { background: white; padding: 30px; border-radius: 8px; width: 400px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; }
+        button { background: #00cc88; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; }
+        .error { color: red; margin: 10px 0; }
+        .exito { color: green; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="registro-box">
+        <h2>📝 Registro de Usuario</h2>
+        
+        <form id="registerForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Contraseña (mínimo 6 caracteres)" required>
+            <button type="submit">Registrarse</button>
+        </form>
+        
+        <div id="mensaje"></div>
+        
+        <p style="margin-top: 20px;">
+            ¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const mensaje = document.getElementById('mensaje');
+            
+            mensaje.innerHTML = ' Registrando...';
+            
+            try {
+                const respuesta = await fetch('http://localhost:3000/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await respuesta.json();
+                
+                if (respuesta.ok) {
+                    mensaje.innerHTML = ' ¡Registro exitoso! Redirigiendo...';
+                    mensaje.className = 'exito';
+                    setTimeout(() => window.location.href = 'index.html', 2000);
+                } else {
+                    mensaje.innerHTML = ' ' + (data.error || 'Error al registrar');
+                    mensaje.className = 'error';
+                }
+            } catch (error) {
+                mensaje.innerHTML = ' Error de conexión con el servidor';
+                mensaje.className = 'error';
+            }
+        });
+    </script>
+</body>
+</html>
