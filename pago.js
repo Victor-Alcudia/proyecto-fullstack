@@ -3,7 +3,7 @@
 // ============================================
 // IMPORTANTE: Reemplaza con tu publishable key de Stripe
 // Obtén tu key en: https://dashboard.stripe.com/apikeys
-const STRIPE_PUBLIC_KEY = '146yy880ppda'; // Usa pk_test_... para pruebas
+const STRIPE_PUBLIC_KEY = 'pk_test_51T6eVyHsZBKrxc3GvQOLqAAU5I1j19gZ6s4aBSyrZ8Uv3ToXhnt7tpZG6vun8nkp3Rnyvk2hM7cYbXVwTCu7XtRY00zVx19m1Q'; // Usa pk_test_... para pruebas
 
 // Inicializar Stripe
 const stripe = Stripe(STRIPE_PUBLIC_KEY);
@@ -215,4 +215,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Hacer funciones globales para los onclick
 window.seleccionarProducto = seleccionarProducto;
 window.procesarPagoConStripe = procesarPagoConStripe;
+
 window.cerrarModal = cerrarModal;
